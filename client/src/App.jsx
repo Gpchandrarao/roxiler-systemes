@@ -53,11 +53,12 @@ function App() {
       apiStatus: apiStatusConstants.inProgress,
     }));
     const offset = (page - 1) * limit;
-    const apiUrl = ``;
+    const apiUrl = `https://roxiler-backend-eo2e.onrender.com/combined-response?month=${selectedMonth}&s_query=${searchText}&limit=${limit}&offset=${offset}`;
     const response = await fetch(apiUrl);
 
     if (response.ok) {
       const data = await response.json();
+
       setApiData((prevData) => ({
         ...prevData,
         apiStatus: apiStatusConstants.success,
@@ -66,6 +67,7 @@ function App() {
         pieChart: data.pieChart,
         barChart: data.barChart,
       }));
+      console.log(data)
     } else {
       setApiData((prevData) => ({
         ...prevData,
@@ -93,6 +95,7 @@ function App() {
           increment={incrementPage}
           decrement={decrementPage}
         />
+        {console.log(apiData.transactions)}
         <Statistics statisticsData={apiData.statistics} month={currentMonth} />
         <BarCharts barChartData={apiData.barChart} month={currentMonth} />
         <PieCharts pieChartData={apiData.pieChart} month={currentMonth} />
